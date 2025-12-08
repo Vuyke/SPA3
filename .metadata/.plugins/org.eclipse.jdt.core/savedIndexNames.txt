@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\Users\vujov\OneDrive\Desktop\programiranje\Java\SPA3\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+700633419.index
+2080900640.index

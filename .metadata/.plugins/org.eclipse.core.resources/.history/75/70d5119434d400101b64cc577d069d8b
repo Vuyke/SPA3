@@ -1,0 +1,197 @@
+package Klase;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.Stack;
+
+public class Graph {
+	private List<Set<Integer>> susedi;
+	private List<Integer> dist;
+	private List<Integer> prev;
+	private int cvorovi;
+	private int grane;
+	private boolean cycle;
+	
+	public Graph(String fileName) throws IOException {
+		BufferedReader r = new BufferedReader(new FileReader(fileName));
+		susedi = new ArrayList<>();
+		cvorovi = Integer.parseInt(r.readLine());
+		grane = Integer.parseInt(r.readLine());
+		for (int i = 0; i < cvorovi; i++) {
+			susedi.add(new HashSet<>());
+		}
+		String line;
+		while ((line = r.readLine()) != null) {
+			String[] parts = line.split(" ");
+			if (parts.length == 2) {
+				int x = Integer.parseInt(parts[0]);
+				int y = Integer.parseInt(parts[1]);
+				susedi.get(x).add(y);
+				susedi.get(y).add(x);
+			}
+		}
+	}
+	
+	public int brojCvorova() {
+		return cvorovi;
+	}
+	
+	public int brojGrana() {
+		return grane;
+	}
+	
+	public Set<Integer> susedi(int x) {
+		return susedi.get(x);
+	}
+	
+	public void dodajGranu(int x, int y) {
+		Set<Integer> trenSusedi = susedi.get(x);
+		grane -= trenSusedi.size();
+		trenSusedi.add(y);
+		susedi.get(y).add(x);
+		grane += trenSusedi.size();
+	}
+	
+	private void bfsReset() {
+		dist = new ArrayList<>(cvorovi);
+		prev = new ArrayList<>(cvorovi);
+		for(int i = 0; i < cvorovi; i++) {
+			dist.add(-1);
+			prev.add(-1);
+		}
+	}
+	
+	private void bfs() {
+		bfsReset();
+		for(int i = 0; i < cvorovi; i++) {
+			if (dist.get(i) == -1) {
+				bfs(i);
+			}
+		}
+	}
+	
+	private void bfs(int start, boolean reset) {
+		cycle = false;
+		if (reset) {
+			bfsReset();
+		}
+		Queue<Integer> q = new LinkedList<>();
+		q.add(start);
+		dist.set(start, 0);
+		while(q.size() > 0) {
+			int cur = q.poll();
+			for (int x : susedi.get(cur)) {
+				if (dist.get(x) == -1) {
+					dist.set(x, dist.get(cur) + 1);
+					q.add(x);
+					prev.set(x, cur);
+				}
+				else if (dist.get(x) != prev.get(x)) {
+					cycle = true;
+				}
+			}
+		}
+	}
+	
+	private void dfsIter(int start, boolean[] visited) {
+		Stack<Integer> s = new Stack<>();
+		s.add(start);
+		visited[start] = true;
+		while(s.size() > 0) {
+			int cur = s.pop();
+			if (!visited[cur]) {
+				visited[cur] = true;
+				for (int x : susedi.get(cur)) {
+					if (!visited[x]) {
+						s.add(x);
+					}
+				}
+			}
+		}
+	}
+	
+	private void dfsIter() {
+		boolean[] visited = new boolean[cvorovi];
+		for(int i = 0; i < cvorovi; i++) {
+			if (!visited[i]) {
+				dfsIter(i, visited);
+			}
+		}
+	}
+	
+	private void dfs(int start, boolean[] visited, Set<Integer> component) {
+		visited[start] = true;
+		component.add(start);
+		for(int x : susedi.get(start)) {
+			if (!visited[x]) {
+				dfs(x, visited, component);
+			}
+		}
+	}
+	
+	private void dfs(int start, boolean[] visited) {
+		visited[start] = true;
+		for(int x : susedi.get(start)) {
+			if (!visited[x]) {
+				dfs(x, visited);
+			}
+		}
+	}
+	
+	public List<Set<Integer>> komponente() {
+		List<Set<Integer>> list = new LinkedList<>();
+		boolean[] visited = new boolean[cvorovi];
+		for(int i = 0; i < cvorovi; i++) {
+			if(!visited[i]) {
+				list.add(komponenta(i, visited));
+			}
+		}
+		return list;
+	}
+
+	public Set<Integer> komponenta(int start) {
+		return komponenta(start, new boolean[cvorovi]);
+	}
+	
+	private Set<Integer> komponenta(int start, boolean[] visited) {
+		Set<Integer> s = new HashSet<>();
+		dfs(start, visited, s);
+		return s;
+	}
+	
+	public boolean put(int x, int y) {
+		return komponenta(x).contains(y);
+	}
+	
+	public void ispisPuta(int x, int y) {
+		bfs(x);
+		int cur = y;
+		while (cur != x) {
+			System.out.println(cur);
+			cur = prev.get(cur);
+		}
+		System.out.println(x);
+	}
+	
+	public List<Integer> distance(int start) {
+		bfs(start);
+		return dist;
+	}
+	
+	public boolean konture() {
+		bfs();
+		return cycle;
+	}
+	
+	@Override
+	public String toString() {
+		return susedi.toString();
+	}
+}
