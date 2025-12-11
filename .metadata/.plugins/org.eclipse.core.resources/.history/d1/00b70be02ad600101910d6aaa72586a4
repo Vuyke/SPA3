@@ -1,0 +1,36 @@
+package Klase;
+
+public class Main {
+	public static void main(String args[]) {
+		try {
+			Graph g = new Graph("tinyG.txt");
+			System.out.println(g);
+			
+			System.out.println("Broj cvorova: " + g.brojCvorova());
+			System.out.println("Broj grana: " + g.brojGrana());
+			System.out.println("Susedi cvora 0: " + g.susedi(0));
+			
+			System.out.println("Komponente: " + g.komponente());
+			System.out.println("Komponenta cvora 0: " + g.komponenta(0));
+			
+			System.out.println("Postojanje puta izmedju cvorova 0 i 6: " + g.put(0, 6));
+			g.ispisPuta(6, 0);
+			System.out.println("Postojanje puta izmedju cvorova 0 i 7: " + g.put(0, 7));
+			
+			System.out.println("Postojanje ciklusa u grafu: " + g.konture());
+			
+			// Testiranje dodavanja grane
+			System.out.println("Broj komponenti pre dodavanja grane: " + g.komponente().size());
+			g.dodajGranu(0, 9);
+			System.out.println("Broj komponenti posle dodavanja grane: " + g.komponente().size());
+			
+			g.dfsIter();
+			g.ispisPuta(3, 2);
+			
+			System.out.println(g.distance(0));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+}

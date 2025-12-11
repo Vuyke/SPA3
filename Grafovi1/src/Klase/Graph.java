@@ -12,33 +12,42 @@ import java.util.Set;
 import java.util.Stack;
 
 public class Graph {
-	private List<Set<Integer>> susedi;
-	private List<Integer> dist;
-	private List<Integer> prev;
-	private boolean[] visited;
-	private int cvorovi;
-	private int grane;
-	private boolean cycle;
+	private List<Set<Integer>> susedi; // Lista susedstva
+	private int[] dist; // Lista distanci koja se popunjava prilikom bfs
+	private int[] prev; // Lista prethodnika koja se popunjava prilikom bfs
+	private List<Set<Integer>> komponente; // Povezane komponente grafa
+	private boolean[] visited; // Niz koji predstavlja koji cvorovi su poseceni u trenutnom prolazenju kroz graf
+	private int cvorovi; // Broj cvorova
+	private int grane; // Broj grana
+	private boolean cycle; // Da li postoji ciklus u grafu
 	
-	public Graph(String fileName) throws IOException {
-		BufferedReader r = new BufferedReader(new FileReader(fileName));
-		susedi = new ArrayList<>();
-		cvorovi = Integer.parseInt(r.readLine());
-		grane = Integer.parseInt(r.readLine());
-		dist = new ArrayList<>(cvorovi);
-		prev = new ArrayList<>(cvorovi);
-		for (int i = 0; i < cvorovi; i++) {
-			susedi.add(new HashSet<>());
-		}
-		String line;
-		while ((line = r.readLine()) != null) {
-			String[] parts = line.split(" ");
-			if (parts.length == 2) {
-				int x = Integer.parseInt(parts[0]);
-				int y = Integer.parseInt(parts[1]);
-				susedi.get(x).add(y);
-				susedi.get(y).add(x);
+	public Graph(String fileName) {
+		try (BufferedReader r = new BufferedReader(new FileReader(fileName))) {
+			cvorovi = Integer.parseInt(r.readLine());
+			grane = Integer.parseInt(r.readLine());
+			
+			// Inicijalizacija pomocnih promenljivih
+			dist = new int[cvorovi];
+			prev = new int[cvorovi];
+			visited = new boolean[cvorovi];
+			
+			susedi = new ArrayList<>();
+			for (int i = 0; i < cvorovi; i++) {
+				susedi.add(new HashSet<>());
 			}
+			
+			String line;
+			while ((line = r.readLine()) != null) {
+				String[] parts = line.split(" ");
+				if (parts.length == 2) {
+					int x = Integer.parseInt(parts[0]);
+					int y = Integer.parseInt(parts[1]);
+					susedi.get(x).add(y);
+					susedi.get(y).add(x);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -50,7 +59,7 @@ public class Graph {
 		return grane;
 	}
 	
-	public Set<Integer> susedi(int x) {
+	public Set<Integer> susedi(int x) { // Vraca suseda cvora x
 		return susedi.get(x);
 	}
 	
@@ -62,71 +71,66 @@ public class Graph {
 		grane += trenSusedi.size();
 	}
 	
-	private void bfsReset() {
+	private void bfsReset() { // Pomocna funkcija za resetovanje pomocnih promenljivih pre bfs obilaska grafa
 		for(int i = 0; i < cvorovi; i++) {
-			dist.add(-1);
-			prev.add(-1);
+			dist[i] = -1;
+			prev[i] = -1;
 		}
 	}
 	
-	private void dfsReset() {
+	private void dfsReset() { // Pomocna funkcija za resetovanje pomocnih promenljivih pre dfs obilaska grafa
 		for(int i = 0; i < cvorovi; i++) {
 			visited[i] = false;
 		}
 	}
 	
-	private void bfs() {
+	private void bfs() { // bfs obilazak grafa, usput pamtimo i da li ima ciklus u grafu
 		cycle = false;
 		bfsReset();
 		for(int i = 0; i < cvorovi; i++) {
-			if (dist.get(i) == -1) {
-				bfs(i, false);
+			if (dist[i] == -1) { // Ako distanca do cvora i nije azurirana (= -1), znaci da ga jos nismo obisli
+				bfs(i);
 			}
 		}
 	}
 	
-	private void bfs(int start) {
-		bfs(start, true);
-	}
-	
-	private void bfs(int start, boolean reset) {
-		if (reset) {
-			bfsReset();
-		}
+	private void bfs(int start) { // bfs obilazak od cvora start
 		Queue<Integer> q = new LinkedList<>();
 		q.add(start);
-		dist.set(start, 0);
+		dist[start] = 0;
 		while(q.size() > 0) {
 			int cur = q.poll();
 			for (int x : susedi.get(cur)) {
-				if (dist.get(x) == -1) {
-					dist.set(x, dist.get(cur) + 1);
-					prev.set(x, cur);
+				if (dist[x] == -1) {
+					dist[x] = dist[cur] + 1;
+					prev[x] = cur;
 					q.add(x);
 				}
-				else if (x != prev.get(cur)) {
+				else if (x != prev[cur]) { // Ako smo vec posetili cvor, a nije prethodni, morali smo zatvoriti ciklus
 					cycle = true;
 				}
 			}
 		}
 	}
 	
-	public void dfsIter() {
+	public void dfsIter() { // Iterativni dfs
 		dfsReset();
 		for(int i = 0; i < cvorovi; i++) {
-			if (!visited[i]) {
+			if (!visited[i]) { // Pustamo dfs iz cvora ako jos nije posecen
 				dfsIter(i);
 			}
 		}
+		System.out.println("Kraj iterativnog dfs");
 	}
 	
-	private void dfsIter(int start) {
+	private void dfsIter(int start) { // Iterativni dfs iz cvora start
 		Stack<Integer> s = new Stack<>();
 		s.add(start);
 		while(s.size() > 0) {
 			int cur = s.pop();
 			if (!visited[cur]) {
-				visited[cur] = true;
+				visited[cur] = true; // Za razliku od bfs, tek ovde mozemo postaviti visited na true
+				System.out.print(cur + ", ");
 				for (int x : susedi.get(cur)) {
 					if (!visited[x]) {
 						s.add(x);
@@ -134,18 +138,22 @@ public class Graph {
 				}
 			}
 		}
+		System.out.println();
 	}
 	
-	private void dfs() {
+	private void dfs() { // dfs obilazak grafa, usput kupimo i sve povezane komponente grafa
+		komponente = new LinkedList<>();
 		dfsReset();
 		for(int i = 0; i < cvorovi; i++) {
 			if (!visited[i]) {
-				dfs(i);
+				Set<Integer> component = new HashSet<>();
+				dfs(i, component);
+				komponente.add(component);
 			}
 		}
 	}
 	
-	private void dfs(int start, Set<Integer> component) {
+	private void dfs(int start, Set<Integer> component) { // dfs obilazak grafa od cvora start
 		visited[start] = true;
 		component.add(start);
 		for(int x : susedi.get(start)) {
@@ -155,57 +163,60 @@ public class Graph {
 		}
 	}
 	
-	private void dfs(int start) {
-		dfs(start, new HashSet<>());
-	}
-	
-	public List<Set<Integer>> komponente() {
-		List<Set<Integer>> list = new LinkedList<>();
-		dfsReset();
-		for(int i = 0; i < cvorovi; i++) {
-			if(!visited[i]) {
-				list.add(komponenta(i, visited));
-			}
-		}
-		return list;
+	public List<Set<Integer>> komponente() { // Vraca sve komponente u grafu
+		dfs();
+		return komponente;
 	}
 
-	public Set<Integer> komponenta(int start) {
-		return komponenta(start, new boolean[cvorovi]);
-	}
 	
-	private Set<Integer> komponenta(int start, boolean[] visited) {
+	public Set<Integer> komponenta(int start) { // Vraca komponentu cvora start
+		dfsReset();
 		Set<Integer> s = new HashSet<>();
 		dfs(start, s);
 		return s;
 	}
 	
-	public boolean put(int x, int y) {
+	public boolean postojanjePuta(int x, int y) { // Vraca da li postoji put izmedju cvorova x i y
+		dfsReset();
 		return komponenta(x).contains(y);
 	}
 	
-	public void ispisPuta(int x, int y) {
-		bfs(x, true);
-		int cur = y;
-		while (cur != x) {
-			System.out.println(cur);
-			cur = prev.get(cur);
+	public List<Integer> put(int x, int y) { // Vraca put izmedju cvorova x i y ukoliko postoji
+		bfsReset();
+		bfs(x);
+		if (dist[y] == -1) {
+			System.out.println("Ne postoji put izmedju cvorova " + x + " i " + y);
+			return null;
 		}
-		System.out.println(x);
+		else {
+			List<Integer> put = new LinkedList<>();
+			int cur = y;
+			put.add(cur);
+			while (cur != x) {
+				cur = prev[cur];
+				put.add(cur);
+			}
+			return put.reversed();
+		}
 	}
 	
-	public List<Integer> distance(int start) {
-		bfs(start, true);
-		return dist;
+	public List<Integer> distance(int start) { // Vraca listu distanci cvora start i svih ostalih cvorova u grafu
+		bfsReset();
+		bfs(start);
+		List<Integer> distList = new LinkedList<>();
+		for(int i = 0; i < cvorovi; i++) {
+			distList.add(dist[i]);
+		}
+		return distList;
 	}
 	
-	public boolean konture() {
+	public boolean konture() { // Proverava da li postoje konture u grafu
 		bfs();
 		return cycle;
 	}
 	
 	@Override
-	public String toString() {
+	public String toString() { // Ispis grafa preko liste susedstva
 		return susedi.toString();
 	}
 }
