@@ -3,6 +3,8 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="visited"/>
+		<item value="prev"/>
 		<item value="dfsIter"/>
 	</list>
 </section>

@@ -1,0 +1,41 @@
+package Klase;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+public class Digraph extends GraphA {
+	public Digraph(String fileName) {
+		super(fileName);
+		// TODO Auto-generated constructor stub
+	}
+
+	private List<Set<Integer>> susediIn;
+
+	@Override
+	public void dodajGranu(int x, int y) {
+		Set<Integer> trenSusedi = susedi.get(x);
+		grane -= trenSusedi.size();
+		trenSusedi.add(y);
+		susediIn.get(y).add(x);
+		grane += trenSusedi.size();
+	}
+	
+	public List<Set<Integer>> komponente() { // Vraca sve komponente u grafu
+		dfs();
+		return komponente;
+	}
+	
+	private void dfs(int start, Set<Integer> component) { // dfs obilazak grafa od cvora start
+		visited[start] = true;
+		component.add(start);
+		for(int x : susedi.get(start)) {
+			if (!visited[x]) {
+				dfs(x, component);
+			}
+		}
+	}
+	
+}
+
