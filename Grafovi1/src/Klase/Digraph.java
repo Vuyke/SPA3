@@ -7,12 +7,19 @@ import java.util.List;
 import java.util.Set;
 
 public class Digraph extends GraphA {
-	private List<Set<Integer>> susediIn; // Lista susedstva cvorova koji imaju granu ka datom cvoru
+	protected List<Set<Integer>> susediIn, susediOut; // Lista susedstva cvorova koji imaju granu ka datom cvoru
 	private Set<Integer> stack; // Stack pomocni za proveru postojanja konture
 	private List<Integer> topological; // Lista koja cuva topoloski sort
+	private List<Set<Integer>> komponenteSlabe;
 	
 	public Digraph(String fileName) {
 		super(fileName);
+		susediOut = susedi;
+	}
+	
+	public Digraph(Digraph g) {
+		super(g);
+		susediOut = susedi;
 	}
 
 	@Override
@@ -24,18 +31,29 @@ public class Digraph extends GraphA {
 		grane += trenSusedi.size();
 	}
 	
-	@Override
-	protected void dfs(int start, Set<Integer> component) {
+	private void dfsSlab() {
+		komponenteSlabe = new LinkedList<>();
+		dfsReset();
+		for(int i = 0; i < cvorovi; i++) {
+			if (!visited[i]) {
+				Set<Integer> component = new HashSet<>();
+				dfsSlab(i, component);
+				komponenteSlabe.add(component);
+			}
+		}
+	}
+	
+	protected void dfsSlab(int start, Set<Integer> component) {
 		visited[start] = true;
 		component.add(start);
-		for(int x : susedi.get(start)) {
+		for(int x : susediOut.get(start)) {
 			if (!visited[x]) {
-				dfs(x, component);
+				dfsSlab(x, component);
 			}
 		}
 		for(int x : susediIn.get(start)) {
 			if (!visited[x]) {
-				dfs(x, component);
+				dfsSlab(x, component);
 			}
 		}
 	}
@@ -73,7 +91,7 @@ public class Digraph extends GraphA {
 	private void topologicalSort(int cur) {
 		stack.add(cur);
 		visited[cur] = true;
-		for(int x : susedi(cur)) {
+		for(int x : susediOut.get(cur)) {
 			if (!visited[x]) {
 				topologicalSort(x);
 			}
@@ -85,6 +103,31 @@ public class Digraph extends GraphA {
 		}
 		topological.add(cur);
 		stack.remove(cur);
+	}
+	
+	public int inDegree(int x) {
+		return susediIn.get(x).size();
+	}
+	
+	
+	public int outDegree(int x) {
+		return susediOut.get(x).size();
+	}
+	
+	public List<Set<Integer>> komponenteSlabe() {
+		dfsSlab();
+		return komponenteSlabe;
+	}
+	
+	public int brojKomponentiSlabih() {
+		return komponenteSlabe().size();
+	}
+	
+	public Set<Integer> komponentaOut(int start) { // Vraca komponentu cvora start
+		dfsReset();
+		Set<Integer> s = new HashSet<>();
+		dfs(start, s);
+		return s;
 	}
 }
 

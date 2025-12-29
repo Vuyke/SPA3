@@ -32,16 +32,29 @@ public class Main {
 //			System.out.println("Broj komponenti posle dodavanja grane 0-9: " + g.komponente().size());
 			
 			/// Vezbe2
-			Digraph g = new Digraph("tinyG.txt");
-			System.out.println("Broj cvorova: " + g.brojCvorova());
-			System.out.println("Broj grana: " + g.brojGrana());
-			System.out.println("Susedi cvora 3: " + g.susedi(3));
-			System.out.println(new BipartiteGraph(g).isBipartite());
-			System.out.println("Komponente: " + g.komponente());
-			System.out.println("Broj komponenti: " + g.brojKomponenti());
-			System.out.println("Kontura postoji: " + g.konture());
-			System.out.println("Kontura: " + g.ciklus());
-			System.out.println("Topological: " + g.topologicalSort());
+//			Digraph g = new Digraph("tinyG.txt");
+//			System.out.println("Broj cvorova: " + g.brojCvorova());
+//			System.out.println("Broj grana: " + g.brojGrana());
+//			System.out.println("Susedi cvora 3: " + g.susedi(3));
+//			System.out.println(new BipartiteGraph(g).isBipartite());
+//			System.out.println("Komponente: " + g.komponenteSlabe());
+//			System.out.println("Broj komponenti: " + g.brojKomponentiSlabih());
+//			System.out.println("Kontura postoji: " + g.postojanjeKonture());
+//			System.out.println("Kontura: " + g.ciklus());
+//			System.out.println("Topological: " + g.topologicalSort());
+			
+			/// Vezbe3
+			DigraphE g = new DigraphE("tinyG.txt");
+			System.out.println("Izvori: " + g.izvori());
+			System.out.println("Usca: " + g.usca());
+			System.out.println("Do svih cvorova iz bar 2: " + g.doSvihOdBar2());
+			System.out.println("Od cvora 0 do svih ostalih: " + g.jednaKomponentaOut(0));
+			System.out.println("Do cvora 12 iz svih ostalih: " + g.jednaKomponentaIn(12));
+			System.out.println("Tranzitivno zatvorenje: " + g.tranzitivnoZatvorenje());
+			System.out.println("Iz nekog do svih: " + g.cvorDoSvihDrugih());
+			System.out.println("Iz svih do nekog: " + g.cvorIzSvihDrugih());
+			Graph g2 = new Graph("tinyG.txt");
+			System.out.println("Pokrivajuce stablo: " + g2.pokrivajuceStablo());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

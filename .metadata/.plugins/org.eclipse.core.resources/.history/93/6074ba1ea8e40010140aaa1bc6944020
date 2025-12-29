@@ -1,0 +1,9 @@
+package Klase;
+
+public class DigraphE extends Digraph {
+
+	public DigraphE(String fileName) {
+		super(fileName);
+	}
+
+}

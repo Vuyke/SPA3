@@ -1,6 +1,8 @@
 package Klase;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -8,6 +10,10 @@ public class Graph extends GraphA {
 	
 	public Graph(String fileName) {
 		super(fileName);
+	}
+	
+	public Graph(int cvorovi) {
+		super(cvorovi);
 	}
 
 	@Override
@@ -17,17 +23,6 @@ public class Graph extends GraphA {
 		trenSusedi.add(y);
 		susedi.get(y).add(x);
 		grane += trenSusedi.size();
-	}
-
-	@Override
-	protected void dfs(int start, Set<Integer> component) {
-		visited[start] = true;
-		component.add(start);
-		for(int x : susedi.get(start)) {
-			if (!visited[x]) {
-				dfs(x, component);
-			}
-		}
 	}
 
 	@Override
@@ -58,6 +53,49 @@ public class Graph extends GraphA {
 					cycleX = cur;
 					cycleY = x;
 				}
+			}
+		}
+	}
+	
+	public Set<Integer> komponenta(int start) { // Vraca komponentu cvora start
+		dfsReset();
+		Set<Integer> s = new HashSet<>();
+		dfs(start, s);
+		return s;
+	}
+	
+	public List<Set<Integer>> komponente() { // Vraca sve komponente u grafu
+		dfs();
+		return komponente;
+	}
+
+	public int brojKomponenti() {
+		return komponente().size();
+	}
+	
+	public Graph pokrivajuceStablo() {
+		Graph g = new Graph(cvorovi);
+		dfsReset();
+		int brKomponenti = 0;
+		for(int i = 0; i < cvorovi; i++) {
+			if (!visited[i]) {
+				if (brKomponenti >= 1) {
+					System.out.println("Vise od jedne komponente, nema pokrivajuce stablo!");
+					return null;
+				}
+				brKomponenti++;
+				dfsPokrivajuceStablo(i, g);
+			}
+		}
+		return g;
+	}
+	
+	private void dfsPokrivajuceStablo(int start, Graph g) {
+		visited[start] = true;
+		for(int x : susedi.get(start)) {
+			if (!visited[x]) {
+				g.dodajGranu(start, x);
+				dfsPokrivajuceStablo(x, g);
 			}
 		}
 	}

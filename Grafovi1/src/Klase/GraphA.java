@@ -21,7 +21,7 @@ public abstract class GraphA {
 	protected boolean cycle; // Da li postoji ciklus u grafu
 	protected int cycleX, cycleY;
 	
-	protected void init() {// Inicijalizacija pomocnih promenljivih
+	protected void init() { // Inicijalizacija pomocnih promenljivih
 		dist = new int[cvorovi];
 		prev = new int[cvorovi];
 		visited = new boolean[cvorovi];
@@ -51,6 +51,21 @@ public abstract class GraphA {
 		}
 	}
 	
+	public GraphA(GraphA g) {
+		this.cvorovi = g.cvorovi;
+		init();
+		for(int i = 0; i < cvorovi; i++) {
+			for(int x : g.susedi.get(i)) {
+				dodajGranu(i, x);
+			}
+		}
+	}
+	
+	public GraphA(int cvorovi) {
+		this.cvorovi = cvorovi;
+		init();
+	}
+	
 	public int brojCvorova() {
 		return cvorovi;
 	}
@@ -64,7 +79,6 @@ public abstract class GraphA {
 	}
 	
 	public abstract void dodajGranu(int x, int y); // Drugacija implementacija za digraph i undirected graph
-	protected abstract void dfs(int start, Set<Integer> component); // dfs obilazak grafa od cvora start
 	protected abstract void iterForCycle();
 	
 	protected void bfsReset() { // Pomocna funkcija za resetovanje pomocnih promenljivih pre bfs obilaska grafa
@@ -146,25 +160,14 @@ public abstract class GraphA {
 		}
 	}
 	
-	public List<Set<Integer>> komponente() { // Vraca sve komponente u grafu
-		dfs();
-		return komponente;
-	}
-
-	public int brojKomponenti() {
-		return komponente().size();
-	}
-	
-	public Set<Integer> komponenta(int start) { // Vraca komponentu cvora start
-		dfsReset();
-		Set<Integer> s = new HashSet<>();
-		dfs(start, s);
-		return s;
-	}
-	
-	public boolean postojanjePuta(int x, int y) { // Vraca da li postoji put izmedju cvorova x i y
-		dfsReset();
-		return komponenta(x).contains(y);
+	protected void dfs(int start, Set<Integer> component) {
+		visited[start] = true;
+		component.add(start);
+		for(int x : susedi.get(start)) {
+			if (!visited[x]) {
+				dfs(x, component);
+			}
+		}
 	}
 
 	public List<Integer> put(int x, int y) { // Vraca put izmedju cvorova x i y ukoliko postoji
@@ -196,13 +199,13 @@ public abstract class GraphA {
 		return distList;
 	}
 	
-	public boolean konture() { // Proverava da li postoje konture u grafu
+	public boolean postojanjeKonture() { // Proverava da li postoje konture u grafu
 		iterForCycle();
 		return cycle;
 	}
 	
 	public List<Integer> ciklus() { // Ispis ciklusa
-		konture();
+		iterForCycle();
 		if (!cycle) {
 			System.out.println("Ne postoji ciklus u grafu!");
 			return null;
@@ -210,6 +213,13 @@ public abstract class GraphA {
 		System.out.println(cycleX + " " + cycleY);
 		List<Integer> list = put(cycleX, cycleY); list.add(cycleX);
 		return list;
+	}
+	
+	public boolean postojanjePuta(int x, int y) { // Vraca da li postoji put izmedju cvorova x i y
+		dfsReset();
+		Set<Integer> s = new HashSet<>();
+		dfs(x, s);
+		return s.contains(y);
 	}
 	
 	@Override

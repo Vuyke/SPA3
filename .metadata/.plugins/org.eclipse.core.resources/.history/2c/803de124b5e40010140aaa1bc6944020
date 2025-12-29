@@ -1,0 +1,88 @@
+package Klase;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+
+public class Graph extends GraphA {
+	
+	public Graph(String fileName) {
+		super(fileName);
+	}
+	
+	public Graph(Graph g) {
+		super(g);
+	}
+	
+	public Graph(int cvorovi) {
+		super(cvorovi);
+	}
+
+	@Override
+	public void dodajGranu(int x, int y) {
+		Set<Integer> trenSusedi = susedi.get(x);
+		grane -= trenSusedi.size();
+		trenSusedi.add(y);
+		susedi.get(y).add(x);
+		grane += trenSusedi.size();
+	}
+
+	@Override
+	protected void iterForCycle() {
+		cycle = false;
+		bfsReset();
+		for(int i = 0; i < cvorovi; i++) {
+			if (dist[i] == -1) { // Ako distanca do cvora i nije azurirana (= -1), znaci da ga jos nismo obisli
+				bfsForCycle(i);
+			}
+		}
+	}
+	
+	private void bfsForCycle(int start) { // bfs obilazak od cvora start
+		Queue<Integer> q = new LinkedList<>();
+		q.add(start);
+		dist[start] = 0;
+		while(q.size() > 0) {
+			int cur = q.poll();
+			for (int x : susedi.get(cur)) {
+				if (dist[x] == -1) {
+					dist[x] = dist[cur] + 1;
+					prev[x] = cur;
+					q.add(x);
+				}
+				else if (x != prev[cur] && !cycle) { // Ako smo vec posetili cvor, a nije prethodni, morali smo zatvoriti ciklus
+					cycle = true;
+					cycleX = cur;
+					cycleY = x;
+				}
+			}
+		}
+	}
+	
+	public Set<Integer> komponenta(int start) { // Vraca komponentu cvora start
+		dfsReset();
+		Set<Integer> s = new HashSet<>();
+		dfs(start, s);
+		return s;
+	}
+	
+	public List<Set<Integer>> komponente() { // Vraca sve komponente u grafu
+		dfs();
+		return komponente;
+	}
+
+	public int brojKomponenti() {
+		return komponente().size();
+	}
+	
+	public Graph pokrivajuceStablo() {
+		Graph g = new Graph(this);
+		dfsReset();
+	}
+	
+	private void dfsPokrivajuceStablo(int start) {
+		
+	}
+}
