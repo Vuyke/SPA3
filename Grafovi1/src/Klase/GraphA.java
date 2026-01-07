@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.Stack;
 
 public abstract class GraphA {
-	protected List<Set<Integer>> susedi; // Lista susedstva
+	protected List<Set<GraphEntry>> susedi; // Lista susedstva
 	protected int[] dist; // Lista distanci koja se popunjava prilikom bfs
 	protected int[] prev; // Lista prethodnika koja se popunjava prilikom bfs
 	protected List<Set<Integer>> komponente; // Povezane komponente grafa
@@ -39,12 +39,7 @@ public abstract class GraphA {
 			init();
 			String line;
 			while ((line = r.readLine()) != null) {
-				String[] parts = line.split(" ");
-				if (parts.length == 2) {
-					int x = Integer.parseInt(parts[0]);
-					int y = Integer.parseInt(parts[1]);
-					dodajGranu(x, y);
-				}
+				dodajGranu(line);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,8 +50,8 @@ public abstract class GraphA {
 		this.cvorovi = g.cvorovi;
 		init();
 		for(int i = 0; i < cvorovi; i++) {
-			for(int x : g.susedi.get(i)) {
-				dodajGranu(i, x);
+			for(GraphEntry x : g.susedi.get(i)) {
+				dodajGranu(i + " " + x);
 			}
 		}
 	}
@@ -74,11 +69,11 @@ public abstract class GraphA {
 		return grane;
 	}
 	
-	public Set<Integer> susedi(int x) { // Vraca suseda cvora x
+	public Set<GraphEntry> susedi(int x) { // Vraca suseda cvora x
 		return susedi.get(x);
 	}
 	
-	public abstract void dodajGranu(int x, int y); // Drugacija implementacija za digraph i undirected graph
+	public abstract void dodajGranu(String line); // Drugacija implementacija za digraph i undirected graph
 	protected abstract void iterForCycle();
 	
 	protected void bfsReset() { // Pomocna funkcija za resetovanje pomocnih promenljivih pre bfs obilaska grafa
@@ -110,7 +105,8 @@ public abstract class GraphA {
 		dist[start] = 0;
 		while(q.size() > 0) {
 			int cur = q.poll();
-			for (int x : susedi.get(cur)) {
+			for (GraphEntry g : susedi.get(cur)) {
+				int x = g.node;
 				if (dist[x] == -1) {
 					dist[x] = dist[cur] + 1;
 					prev[x] = cur;
@@ -138,7 +134,8 @@ public abstract class GraphA {
 			if (!visited[cur]) {
 				visited[cur] = true; // Za razliku od bfs, tek ovde mozemo postaviti visited na true
 				System.out.print(cur + ", ");
-				for (int x : susedi.get(cur)) {
+				for (GraphEntry g : susedi.get(cur)) {
+					int x = g.node;
 					if (!visited[x]) {
 						s.add(x);
 					}
@@ -163,7 +160,8 @@ public abstract class GraphA {
 	protected void dfs(int start, Set<Integer> component) {
 		visited[start] = true;
 		component.add(start);
-		for(int x : susedi.get(start)) {
+		for(GraphEntry g : susedi.get(start)) {
+			int x = g.node;
 			if (!visited[x]) {
 				dfs(x, component);
 			}

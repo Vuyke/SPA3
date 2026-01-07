@@ -39,7 +39,7 @@ public class DigraphE extends Digraph {
 	}
 	
 	public boolean jednaKomponentaIn(int x) {
-		List<Set<Integer>> tmp = susedi;
+		List<Set<GraphEntry>> tmp = susedi;
 		susedi = susediIn;
 		boolean res = jednaKomponentaOut(x);
 		susedi = tmp;
@@ -63,7 +63,7 @@ public class DigraphE extends Digraph {
 		Digraph g = new Digraph(this);
 		for(int i = 0; i < cvorovi; i++) {
 			for(int x : komponentaOut(i)) {
-				if (i != x) g.dodajGranu(i, x);
+				if (i != x) g.dodajGranu(i + " " + x);
 			}
 		}
 		return g;
@@ -79,7 +79,7 @@ public class DigraphE extends Digraph {
 	}
 	
 	public boolean cvorIzSvihDrugih() {
-		List<Set<Integer>> tmp = susedi;
+		List<Set<GraphEntry>> tmp = susedi;
 		susedi = susediIn;
 		boolean res = cvorDoSvihDrugih();
 		susedi = tmp;

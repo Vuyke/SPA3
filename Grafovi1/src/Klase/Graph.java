@@ -17,12 +17,17 @@ public class Graph extends GraphA {
 	}
 
 	@Override
-	public void dodajGranu(int x, int y) {
-		Set<Integer> trenSusedi = susedi.get(x);
-		grane -= trenSusedi.size();
-		trenSusedi.add(y);
-		susedi.get(y).add(x);
-		grane += trenSusedi.size();
+	public void dodajGranu(String line) {
+		String[] parts = line.split(" ");
+		if (parts.length == 2) {
+			int x = Integer.parseInt(parts[0]);
+			int y = Integer.parseInt(parts[1]);
+			Set<GraphEntry> trenSusedi = susedi.get(x);
+			grane -= trenSusedi.size();
+			trenSusedi.add(new IntegerEntry(y));
+			susedi.get(y).add(new IntegerEntry(x));
+			grane += trenSusedi.size();
+		}
 	}
 
 	@Override
@@ -42,7 +47,8 @@ public class Graph extends GraphA {
 		dist[start] = 0;
 		while(q.size() > 0) {
 			int cur = q.poll();
-			for (int x : susedi.get(cur)) {
+			for (GraphEntry g : susedi.get(cur)) {
+				int x = g.node;
 				if (dist[x] == -1) {
 					dist[x] = dist[cur] + 1;
 					prev[x] = cur;
@@ -90,12 +96,13 @@ public class Graph extends GraphA {
 		return g;
 	}
 	
-	private void dfsPokrivajuceStablo(int start, Graph g) {
+	private void dfsPokrivajuceStablo(int start, Graph graph) {
 		visited[start] = true;
-		for(int x : susedi.get(start)) {
+		for(GraphEntry g : susedi.get(start)) {
+			int x = g.node;
 			if (!visited[x]) {
-				g.dodajGranu(start, x);
-				dfsPokrivajuceStablo(x, g);
+				graph.dodajGranu(start + " " + x);
+				dfsPokrivajuceStablo(x, graph);
 			}
 		}
 	}

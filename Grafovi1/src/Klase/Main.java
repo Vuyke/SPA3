@@ -44,17 +44,25 @@ public class Main {
 //			System.out.println("Topological: " + g.topologicalSort());
 			
 			/// Vezbe3
-			DigraphE g = new DigraphE("tinyG.txt");
-			System.out.println("Izvori: " + g.izvori());
-			System.out.println("Usca: " + g.usca());
-			System.out.println("Do svih cvorova iz bar 2: " + g.doSvihOdBar2());
-			System.out.println("Od cvora 0 do svih ostalih: " + g.jednaKomponentaOut(0));
-			System.out.println("Do cvora 12 iz svih ostalih: " + g.jednaKomponentaIn(12));
-			System.out.println("Tranzitivno zatvorenje: " + g.tranzitivnoZatvorenje());
-			System.out.println("Iz nekog do svih: " + g.cvorDoSvihDrugih());
-			System.out.println("Iz svih do nekog: " + g.cvorIzSvihDrugih());
-			Graph g2 = new Graph("tinyG.txt");
-			System.out.println("Pokrivajuce stablo: " + g2.pokrivajuceStablo());
+//			DigraphE g = new DigraphE("tinyG.txt");
+//			System.out.println("Izvori: " + g.izvori());
+//			System.out.println("Usca: " + g.usca());
+//			System.out.println("Do svih cvorova iz bar 2: " + g.doSvihOdBar2());
+//			System.out.println("Od cvora 0 do svih ostalih: " + g.jednaKomponentaOut(0));
+//			System.out.println("Do cvora 12 iz svih ostalih: " + g.jednaKomponentaIn(12));
+//			System.out.println("Tranzitivno zatvorenje: " + g.tranzitivnoZatvorenje());
+//			System.out.println("Iz nekog do svih: " + g.cvorDoSvihDrugih());
+//			System.out.println("Iz svih do nekog: " + g.cvorIzSvihDrugih());
+//			Graph g2 = new Graph("tinyG.txt");
+//			System.out.println("Pokrivajuce stablo: " + g2.pokrivajuceStablo());
+//			
+			/// Vezbe 4
+			WeightedGraph g = new WeightedGraph("wGraph.txt");
+			System.out.println("Najkrace od 5 do 4: " + g.najjeftinijiPut(5, 4));
+			System.out.println("Najkrace od 0: " + g.najjeftinijiPutevi(0));
+			System.out.println("Od 5 do 4 sa samo 5 kiseonika: " + g.ronilac1(5, 4, 5.1));
+			System.out.println("Od 0 do 6 sa izranjanjem i 3 kiseonika: " + g.ronilac2(0, 6, 3.1));
+			System.out.println("Od 7 do 6 sa izranjanjem na parnim i 3 kiseonika: " + g.ronilac3(7, 9, 5));
 			
 		} catch (Exception e) {
 			e.printStackTrace();

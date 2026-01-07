@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item key="hasShownOverlayPopupBefore" value="true"/>
-	<item key="replaceBarOpen" value="false"/>
+	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="getNode()"/>
+		<item value="dfs"/>
+		<item value="dfsUndi"/>
+		<item value="komponente"/>
+		<item value="visited["/>
+		<item value="visited[]"/>
+		<item value="dfs()"/>
 		<item value="bfs("/>
 		<item value="cycle"/>
-		<item value="komponente"/>
 		<item value="11"/>
 		<item value="10"/>
 		<item value="9"/>
 		<item value="8"/>
 		<item value="7"/>
 		<item value="6"/>
-		<item value="5"/>
-		<item value="4"/>
-		<item value="3"/>
-		<item value="2"/>
-		<item value="1"/>
-		<item value="0"/>
+	</list>
+	<list key="replacehistory">
+		<item value="node"/>
 	</list>
 </section>

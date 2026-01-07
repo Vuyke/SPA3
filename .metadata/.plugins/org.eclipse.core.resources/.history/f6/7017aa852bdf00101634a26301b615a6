@@ -1,5 +1,0 @@
-package Klase;
-
-public interface Digraph {
-
-}
