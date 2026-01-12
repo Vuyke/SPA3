@@ -3,6 +3,7 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="init"/>
 		<item value="getNode()"/>
 		<item value="dfs"/>
 		<item value="dfsUndi"/>
@@ -17,7 +18,6 @@
 		<item value="9"/>
 		<item value="8"/>
 		<item value="7"/>
-		<item value="6"/>
 	</list>
 	<list key="replacehistory">
 		<item value="node"/>

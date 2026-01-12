@@ -22,10 +22,10 @@ public class Graph extends GraphA {
 		if (parts.length == 2) {
 			int x = Integer.parseInt(parts[0]);
 			int y = Integer.parseInt(parts[1]);
-			Set<GraphEntry> trenSusedi = susedi.get(x);
+			Set<Edge> trenSusedi = susedi.get(x);
 			grane -= trenSusedi.size();
-			trenSusedi.add(new IntegerEntry(y));
-			susedi.get(y).add(new IntegerEntry(x));
+			trenSusedi.add(new Edge(x, y));
+			susedi.get(y).add(new Edge(y, x));
 			grane += trenSusedi.size();
 		}
 	}
@@ -47,8 +47,8 @@ public class Graph extends GraphA {
 		dist[start] = 0;
 		while(q.size() > 0) {
 			int cur = q.poll();
-			for (GraphEntry g : susedi.get(cur)) {
-				int x = g.node;
+			for (Edge g : susedi.get(cur)) {
+				int x = g.to;
 				if (dist[x] == -1) {
 					dist[x] = dist[cur] + 1;
 					prev[x] = cur;
@@ -98,8 +98,8 @@ public class Graph extends GraphA {
 	
 	private void dfsPokrivajuceStablo(int start, Graph graph) {
 		visited[start] = true;
-		for(GraphEntry g : susedi.get(start)) {
-			int x = g.node;
+		for(Edge g : susedi.get(start)) {
+			int x = g.to;
 			if (!visited[x]) {
 				graph.dodajGranu(start + " " + x);
 				dfsPokrivajuceStablo(x, graph);

@@ -29,8 +29,8 @@ public class BipartiteGraph {
 	}
 	
 	private boolean isBipartiteDfs(int cur) {
-		for (GraphEntry g : graph.susedi(cur)) {
-			int x = g.node;
+		for (Edge g : graph.susedi(cur)) {
+			int x = g.to;
 			if (colors[x] != 0 && colors[x] == colors[cur]) {
 				return false;
 			}

@@ -16,8 +16,6 @@
     <fullyQualifiedTypeName name="Klase.IntegerEntry"/>
     <fullyQualifiedTypeName name="Klase.Graph"/>
     <fullyQualifiedTypeName name="Klase.GraphA"/>
-    <fullyQualifiedTypeName name="Klase.PairEntry"/>
-    <fullyQualifiedTypeName name="Klase.GraphEntry"/>
     <fullyQualifiedTypeName name="java.util.PriorityQueue"/>
     <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="Klase.IntegerPair"/>
@@ -26,6 +24,11 @@
     <fullyQualifiedTypeName name="Klase.DikstraPair"/>
     <fullyQualifiedTypeName name="java.util.function.Function"/>
     <fullyQualifiedTypeName name="Klase.Function"/>
-    <fullyQualifiedTypeName name="Klase.WeightedGraph"/>
     <fullyQualifiedTypeName name="Klase.DikstraEntry"/>
+    <fullyQualifiedTypeName name="Klase.GraphEntry"/>
+    <fullyQualifiedTypeName name="Klase.PairEntry"/>
+    <fullyQualifiedTypeName name="Klase.Edge"/>
+    <fullyQualifiedTypeName name="Klase.Util"/>
+    <fullyQualifiedTypeName name="Klase.UnionFind"/>
+    <fullyQualifiedTypeName name="Klase.WeightedGraph"/>
 </qualifiedTypeNameHistroy>

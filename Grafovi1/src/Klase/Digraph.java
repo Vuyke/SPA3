@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Digraph extends GraphA {
-	protected List<Set<GraphEntry>> susediIn, susediOut; // Lista susedstva cvorova koji imaju granu ka datom cvoru
+	protected List<Set<Edge>> susediIn, susediOut; // Lista susedstva cvorova koji imaju granu ka datom cvoru
 	private Set<Integer> stack; // Stack pomocni za proveru postojanja konture
 	private List<Integer> topological; // Lista koja cuva topoloski sort
 	private List<Set<Integer>> komponenteSlabe;
@@ -28,10 +28,11 @@ public class Digraph extends GraphA {
 		if (parts.length == 2) {
 			int x = Integer.parseInt(parts[0]);
 			int y = Integer.parseInt(parts[1]);
-			Set<GraphEntry> trenSusedi = susedi.get(x);
+			Set<Edge> trenSusedi = susedi.get(x);
 			grane -= trenSusedi.size();
-			trenSusedi.add(new IntegerEntry(y));
-			susediIn.get(y).add(new IntegerEntry(x));
+			Edge e = new Edge(x, y);
+			trenSusedi.add(e);
+			susediIn.get(y).add(e.reversed());
 			grane += trenSusedi.size();
 		}
 	}
@@ -51,14 +52,14 @@ public class Digraph extends GraphA {
 	protected void dfsSlab(int start, Set<Integer> component) {
 		visited[start] = true;
 		component.add(start);
-		for(GraphEntry g : susediOut.get(start)) {
-			int x = g.node;
+		for(Edge g : susediOut.get(start)) {
+			int x = g.to;
 			if (!visited[x]) {
 				dfsSlab(x, component);
 			}
 		}
-		for(GraphEntry g : susediIn.get(start)) {
-			int x = g.node;
+		for(Edge g : susediIn.get(start)) {
+			int x = g.to;
 			if (!visited[x]) {
 				dfsSlab(x, component);
 			}
@@ -98,8 +99,8 @@ public class Digraph extends GraphA {
 	private void topologicalSort(int cur) {
 		stack.add(cur);
 		visited[cur] = true;
-		for(GraphEntry g : susediOut.get(cur)) {
-			int x = g.node;
+		for(Edge g : susediOut.get(cur)) {
+			int x = g.to;
 			if (!visited[x]) {
 				topologicalSort(x);
 			}

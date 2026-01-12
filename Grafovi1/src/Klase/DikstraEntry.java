@@ -40,7 +40,6 @@ public class DikstraEntry {
 	}
 	
 	public static int compare(DikstraEntry a, DikstraEntry b) {
-		double val = a.y - b.y;
-		return val > 0 ? 1 : (val < 0 ? -1 : 0);
+		return Util.compareDouble(a.y, b.y);
 	}
 }

@@ -57,12 +57,17 @@ public class Main {
 //			System.out.println("Pokrivajuce stablo: " + g2.pokrivajuceStablo());
 //			
 			/// Vezbe 4
+//			WeightedGraph g = new WeightedGraph("wGraph.txt");
+//			System.out.println("Najkrace od 5 do 4: " + g.najjeftinijiPut(5, 4));
+//			System.out.println("Najkrace od 0: " + g.najjeftinijiPutevi(0));
+//			System.out.println("Od 5 do 4 sa samo 5 kiseonika: " + g.ronilac1(5, 4, 5.1));
+//			System.out.println("Od 0 do 6 sa izranjanjem i 3 kiseonika: " + g.ronilac2(0, 6, 3.1));
+//			System.out.println("Od 7 do 6 sa izranjanjem na parnim i 3 kiseonika: " + g.ronilac3(7, 9, 5));
+			
+			/// Vezbe 5
 			WeightedGraph g = new WeightedGraph("wGraph.txt");
-			System.out.println("Najkrace od 5 do 4: " + g.najjeftinijiPut(5, 4));
-			System.out.println("Najkrace od 0: " + g.najjeftinijiPutevi(0));
-			System.out.println("Od 5 do 4 sa samo 5 kiseonika: " + g.ronilac1(5, 4, 5.1));
-			System.out.println("Od 0 do 6 sa izranjanjem i 3 kiseonika: " + g.ronilac2(0, 6, 3.1));
-			System.out.println("Od 7 do 6 sa izranjanjem na parnim i 3 kiseonika: " + g.ronilac3(7, 9, 5));
+			System.out.println("Minimalno stablo: " + g.minimalSpanningTree());
+			System.out.println("Minimalno stablo sa sigurnom prvom granom iz fajla: " + g.minimalSpanningTreeFirstEdge());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.Stack;
 
 public abstract class GraphA {
-	protected List<Set<GraphEntry>> susedi; // Lista susedstva
+	protected List<Set<Edge>> susedi; // Lista susedstva
 	protected int[] dist; // Lista distanci koja se popunjava prilikom bfs
 	protected int[] prev; // Lista prethodnika koja se popunjava prilikom bfs
 	protected List<Set<Integer>> komponente; // Povezane komponente grafa
@@ -50,7 +50,7 @@ public abstract class GraphA {
 		this.cvorovi = g.cvorovi;
 		init();
 		for(int i = 0; i < cvorovi; i++) {
-			for(GraphEntry x : g.susedi.get(i)) {
+			for(Edge x : g.susedi.get(i)) {
 				dodajGranu(i + " " + x);
 			}
 		}
@@ -69,7 +69,7 @@ public abstract class GraphA {
 		return grane;
 	}
 	
-	public Set<GraphEntry> susedi(int x) { // Vraca suseda cvora x
+	public Set<Edge> susedi(int x) { // Vraca suseda cvora x
 		return susedi.get(x);
 	}
 	
@@ -105,8 +105,8 @@ public abstract class GraphA {
 		dist[start] = 0;
 		while(q.size() > 0) {
 			int cur = q.poll();
-			for (GraphEntry g : susedi.get(cur)) {
-				int x = g.node;
+			for (Edge g : susedi.get(cur)) {
+				int x = g.to;
 				if (dist[x] == -1) {
 					dist[x] = dist[cur] + 1;
 					prev[x] = cur;
@@ -134,8 +134,8 @@ public abstract class GraphA {
 			if (!visited[cur]) {
 				visited[cur] = true; // Za razliku od bfs, tek ovde mozemo postaviti visited na true
 				System.out.print(cur + ", ");
-				for (GraphEntry g : susedi.get(cur)) {
-					int x = g.node;
+				for (Edge g : susedi.get(cur)) {
+					int x = g.to;
 					if (!visited[x]) {
 						s.add(x);
 					}
@@ -160,8 +160,8 @@ public abstract class GraphA {
 	protected void dfs(int start, Set<Integer> component) {
 		visited[start] = true;
 		component.add(start);
-		for(GraphEntry g : susedi.get(start)) {
-			int x = g.node;
+		for(Edge g : susedi.get(start)) {
+			int x = g.to;
 			if (!visited[x]) {
 				dfs(x, component);
 			}
