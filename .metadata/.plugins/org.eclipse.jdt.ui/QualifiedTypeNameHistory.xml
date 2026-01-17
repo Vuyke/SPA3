@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="java.io.BufferedReader"/>
-    <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
-    <fullyQualifiedTypeName name="java.io.FileReader"/>
     <fullyQualifiedTypeName name="java.util.Iterator"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="Klase.BipartiteGraph"/>
     <fullyQualifiedTypeName name="java.util.Stack"/>
     <fullyQualifiedTypeName name="java.lang.classfile.attribute.RuntimeVisibleTypeAnnotationsAttribute"/>
-    <fullyQualifiedTypeName name="java.util.LinkedList"/>
-    <fullyQualifiedTypeName name="java.util.HashSet"/>
     <fullyQualifiedTypeName name="Klase.Digraph"/>
     <fullyQualifiedTypeName name="Klase.DigraphE"/>
     <fullyQualifiedTypeName name="java.lang.InternalError"/>
@@ -31,4 +27,18 @@
     <fullyQualifiedTypeName name="Klase.Util"/>
     <fullyQualifiedTypeName name="Klase.UnionFind"/>
     <fullyQualifiedTypeName name="Klase.WeightedGraph"/>
+    <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+    <fullyQualifiedTypeName name="java.io.FileReader"/>
+    <fullyQualifiedTypeName name="edu.princeton.cs.algs4.In"/>
+    <fullyQualifiedTypeName name="boolean"/>
+    <fullyQualifiedTypeName name="java.util.Queue"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="KolokvijumVezba.Vezbe1"/>
+    <fullyQualifiedTypeName name="sun.jvm.hotspot.runtime.StaticBaseConstructor"/>
+    <fullyQualifiedTypeName name="edu.princeton.cs.algs4.Queue"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="java.util.HashSet"/>
+    <fullyQualifiedTypeName name="edu.princeton.cs.algs4.Digraph"/>
+    <fullyQualifiedTypeName name="edu.princeton.cs.algs4.Graph"/>
+    <fullyQualifiedTypeName name="KolokvijumVezba.Vezbe3"/>
 </qualifiedTypeNameHistroy>
