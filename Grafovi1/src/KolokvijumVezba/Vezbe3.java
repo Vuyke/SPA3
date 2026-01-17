@@ -136,8 +136,8 @@ public class Vezbe3 {
 	}
 	
 	public Digraph spanningTreeDigraph() {
-		Digraph tree = new Digraph(g.V());
 		for(int i = 0; i < g.V(); i++) {
+			Digraph tree = new Digraph(g.V());
 			if(connectedToAll(i, tree)) {
 				return tree;
 			}
