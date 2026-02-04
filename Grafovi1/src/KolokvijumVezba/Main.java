@@ -1,6 +1,7 @@
 package KolokvijumVezba;
 
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.EdgeWeightedGraph;
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.In;
 
@@ -8,8 +9,9 @@ public class Main {
 	public static void main(String[] args) {
 //		vezbe1();
 //		vezbe2();
-		vezbe3();
-		
+//		vezbe3();
+		vezbe4();
+//		vezbe5();
 	}	
 	
 	public static void vezbe1() {
@@ -61,6 +63,22 @@ public class Main {
 		Graph g2 = new Graph(new In("tinyG.txt"));
 		System.out.println("Pokrivajuce stablo graf: " + v.spanningTree(g2));
 		System.out.println("Pokrivajuce stablo digraf: " + v.spanningTreeDigraph());
-		
+	}
+	
+	public static void vezbe4() {
+		EdgeWeightedGraph g = new EdgeWeightedGraph(new In("wGraph.txt"));
+		Vezbe4 v = new Vezbe4(g);
+		System.out.println("Najkrace od 5 do 4: " + v.minPath(5, 4));
+		System.out.println("Najkrace od 0: " + v.minPath(0));
+		System.out.println("Od 5 do 4 sa samo 5 kiseonika: " + v.ronilac1(5, 4, 5.1));
+		System.out.println("Od 0 do 6 sa izranjanjem i 3 kiseonika: " + v.ronilac2(0, 6, 3.1));
+		System.out.println("Od 7 do 6 sa izranjanjem na parnim i 3 kiseonika: " + v.ronilac3(7, 9, 5));
+	}
+	
+	public static void vezbe5() {
+		EdgeWeightedGraph g = new EdgeWeightedGraph(new In("wGraph.txt"));
+		Vezbe5 v = new Vezbe5(g);
+		System.out.println("Minimalno stablo: " + v.minimalSpanningTree());
+		System.out.println("Minimalno stablo sa sigurnom prvom granom iz fajla: " + v.minimalSpanningTreePredefined());
 	}
 }

@@ -15,12 +15,6 @@ public class Vezbe1 {
 		this.g = g;
 	}
 	
-	private List<Integer> listFromArray(int[] a) {
-		List<Integer> list = new LinkedList<>();
-		for(int x : a) list.add(x);
-		return list;
-	}
-	
 	private Set<Integer> component(int start, boolean[] visited) {
 		Set<Integer> component = new HashSet<>();
 		dfsComponent(start, component, visited);
@@ -114,7 +108,7 @@ public class Vezbe1 {
 	public List<Integer> distances(int start) {
 		int[] dist = Util.integerArray(g.V());
 		bfsDist(start, dist);
-		return listFromArray(dist);
+		return Util.listFromArray(dist);
 	}
 	
 	public boolean cycleExists() {

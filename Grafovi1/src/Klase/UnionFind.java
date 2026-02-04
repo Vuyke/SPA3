@@ -26,12 +26,16 @@ public class UnionFind {
 		return par[x];
 	}
 	
-	public void add(Edge g) {
-		int x = par(g.from), y = par(g.to);
+	public void add(int x, int y) {
+		x = par(x); y = par(y);
 		if (size[x] < size[y]) {
 			x ^= y; y ^= x; x ^= y; // swap 2 elements
 		}
 		size[x] += size[y];
 		par[y] = x;
+	}
+	
+	public boolean sameComponent(int a, int b) {
+		return par(a) == par(b);
 	}
 }

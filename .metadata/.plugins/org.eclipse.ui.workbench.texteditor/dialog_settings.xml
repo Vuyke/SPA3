@@ -3,6 +3,8 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="T"/>
+		<item value="doubleArr"/>
 		<item value="init"/>
 		<item value="getNode()"/>
 		<item value="dfs"/>
@@ -16,10 +18,9 @@
 		<item value="11"/>
 		<item value="10"/>
 		<item value="9"/>
-		<item value="8"/>
-		<item value="7"/>
 	</list>
 	<list key="replacehistory">
+		<item value="K"/>
 		<item value="node"/>
 	</list>
 </section>

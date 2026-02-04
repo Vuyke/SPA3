@@ -167,8 +167,8 @@ public class WeightedGraph extends GraphA {
 	private WeightedGraph minimalSpanningTreeUtil(UnionFind union, List<Edge> list, WeightedGraph tree) {
 		for (Edge e : list) {
 			int x = e.from, y = e.to;
-			if (union.par(x) != union.par(y)) {
-				union.add(e);
+			if (!union.sameComponent(x, y)) {
+				union.add(x, y);
 				tree.dodajGranu(e);
 			}
 		}
@@ -187,7 +187,7 @@ public class WeightedGraph extends GraphA {
 		List<Edge> list = new LinkedList<>(listaGrana);
 		UnionFind union = new UnionFind(cvorovi);
 		WeightedGraph tree = new WeightedGraph(cvorovi);
-		union.add(list.getFirst());
+		union.add(list.getFirst().from, list.getFirst().to);
 		tree.dodajGranu(list.getFirst());
 		list.removeFirst();
 		list.sort((x, y) -> Util.compareDouble(x.weight, y.weight));
