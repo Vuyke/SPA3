@@ -1,0 +1,41 @@
+;File;f
+File;new;n;novi fajl
+
+;Edit;e
+Edit;copy;c;kopiram
+Edit;cut;x;secem
+Edit;paste;v;lepim
+
+Edit;indent;i
+Edit:indent;indent more;m;uvlacim
+Edit:indent;indent less;l;privlacim
+Edit:indent;auto indent;a;automatizujem
+
+Edit:indent;tabs or spaces;t
+Edit:indent:tabs or spaces;spaces;s;spaces!
+Edit:indent:tabs or spaces;tabs;t;tabs!
+
+Edit;delete;d
+Edit:delete;lines;l;brisem redove
+Edit:delete;to beginning;b;brisem do pocetka
+Edit:delete;to end;e;brisem do kraja
+
+;Play;p
+Play;next;n;sledeca
+Play;prev;p;prethodna
+
+Play;mode;m
+Play:mode;shuffle;s
+Play:mode:shuffle;song;s
+Play:mode:shuffle;all;a
+Play:mode:shuffle;album;b
+
+;Zemlja;z
+Zemlja;Evropa;e
+Zemlja:Evropa;Nemacka;n
+Zemlja:Evropa:Nemacka;Berlin;b
+Zemlja:Evropa:Nemacka:Berlin;Opera restaurant;o
+Zemlja:Evropa:Nemacka:Berlin:Opera restaurant;Becka snicla;w
+Zemlja:Evropa:Nemacka:Berlin:Opera restaurant:Becka snicla;Pomfrit;p
+Zemlja:Evropa:Nemacka:Berlin:Opera restaurant:Becka snicla;limun;l
+Zemlja:Evropa:Nemacka:Berlin:Opera restaurant:Becka snicla:limun;semenka;s

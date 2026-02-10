@@ -1,6 +1,8 @@
 package Stabla;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BST<K extends Comparable<K>, V> {
 	private class Node {
@@ -175,5 +177,18 @@ public class BST<K extends Comparable<K>, V> {
 		System.out.println(cur);
 		ispis(cur.left);
 		ispis(cur.right);
+	}
+	
+	public List<K> getAll() {
+		List<K> keys = new LinkedList<>();
+		getAll(root, keys);
+		return keys;
+	}
+	
+	private void getAll(Node cur, List<K> keys) {
+		if (cur == null) return;
+		getAll(cur.left, keys);
+		keys.add(cur.key);
+		getAll(cur.right, keys);
 	}
 }
